@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="seccion">
+    <h2>Bitácora · Cliente {{ cliente_id }}</h2>
+
+    <!-- Form nueva nota -->
+    <form method="POST" style="margin:1rem 0;">
+        <textarea name="nota" rows="3" style="width:100%;max-width:600px;padding:8px;
+                  border-radius:6px;border:1px solid #ccc;"
+                  placeholder="Escribe la nota del día..." required></textarea><br>
+        <button class="btn-estimado" type="submit">Guardar nota</button>
+    </form>
+
+    <!-- Timeline -->
+    <div style="max-width:700px;margin:0 auto;">
+        {% for e in entradas %}
+        <div style="background:#fff;margin:14px 0;padding:12px 16px;border-radius:8px;
+                    box-shadow:0 2px 6px rgba(0,0,0,0.08);">
+            <strong>{{ e.fecha }} · {{ e.autor }}</strong><br>
+            {{ e.nota }}
+        </div>
+        {% else %}
+        <p>No hay entradas aún.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

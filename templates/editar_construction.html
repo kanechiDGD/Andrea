@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ cliente['Full Name'] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f8fd;
+            margin: 0;
+            padding: 0;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .top-bar a {
+            text-decoration: none;
+            color: #fbfbfb;
+            font-weight: 600;
+            margin-left: 20px;
+        }
+        .form-container {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .form-group {
+            width: calc(33% - 20px);
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .submit-btn i {
+            margin-right: 8px;
+        }
+        
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            background-color: #0b2347; /* fondo lila claro */
+            color: #0b2347;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn-back i {
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+        .btn-back:hover {
+            background-color: #0b2347;
+        }
+
+    </style>
+</head>
+<body>
+    {% include 'sidebar.html' %}
+    <div class="main-content">
+        <div class="top-bar">
+            <h1>{{ cliente['Full Name'] }}</h1>
+            <div>
+                <a href="{{ url_for('construction_detail', cliente_id=cliente['ID']) }}" class="btn-back">
+                    <i class="fas fa-arrow-left"></i> Cancel
+                </a>
+                
+            </div>
+        </div>
+
+        <form method="POST" action="{{ url_for('editar_construction', cliente_id=cliente['ID']) }}" class="form-container">
+            {% for field in [
+                'Garage', 'Budget', 'Roof', 'Start Date', 'Finish Date', 'Insurance Estimate', 'Approved',
+                'Garage Approved', 'SQ', 'Color', 'Permit', 'Contract PDF', 'Flat Roof', 'Gutters', 'Fascia',
+                'Windows', 'Awnings', 'Siding', 'Chimney', 'Window Screens', 'Gutters Guards', 'Garage Door',
+                'Garage Framing', 'Pitch', 'Layers', 'Decking Space', 'Ice Line', 'Gutter Apron', 'Drip Edge',
+                'Dish Antenna', 'Vent Pipe', 'Number of Pipes', 'Baby Tins', 'Kitchen Vents', 'Coaching', 'Starter',
+                '1x Studs', 'Nails', 'Syntheic Paper', 'Flashing', 'Ridge'] %}
+
+                <div class="form-group">
+                    <label>{{ field.replace('_', ' ') }}</label>
+                    <input type="text" name="{{ field }}" value="{{ cliente.get(field, '') }}">
+                </div>
+            {% endfor %}
+
+            <div style="width: 100%; text-align: right;">
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

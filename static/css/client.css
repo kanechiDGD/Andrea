@@ -1,0 +1,188 @@
+/* Estilo principal para client log */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background-color: #f4f6f9;
+  color: #333;
+}
+
+.container {
+  display: flex;
+}
+
+.main-content {
+  margin-left: 450px; /* Debe ser igual al ancho del sidebar */
+  padding: 2rem;
+  transition: margin-left 0.3s ease;
+}
+
+
+.busqueda-form {
+  margin-bottom: 2rem;
+  margin-left: 60px;  /* para que no se monte con el menú */
+  margin-top: 20px;
+}
+
+.busqueda-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.busqueda-input {
+  flex-grow: 1;
+  border: none;
+  padding: 0.5rem;
+  font-size: 16px;
+}
+
+.busqueda-input:focus {
+  outline: none;
+}
+
+.busqueda-icono {
+  margin-right: 10px;
+  color: #6b7280;
+}
+
+.busqueda-boton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #1e293b;
+  font-size: 16px;
+}
+
+/* Diseño general */
+.cliente-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.columna-izquierda,
+.columna-principal {
+  flex: 4;
+  min-width: 320px;
+}
+
+/* Tarjetas */
+.card {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  margin-bottom: 1rem;
+}
+
+/* Imagen redonda */
+.cliente-foto {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 1rem auto;
+  border: 4px solid #d1d5db;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Tabla de logs */
+.cliente-logs table {
+  width: 100%;
+  max-width: 600px;
+}
+
+.cliente-logs th,
+.cliente-logs td {
+  padding: 0.5rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.cliente-logs th {
+  background-color: #f3f4f6;
+  font-weight: 600;
+}
+
+.no-data {
+  color: #999;
+  font-style: italic;
+}
+
+.add-log-form-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.add-log-form-section label {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.add-log-form-section select,
+.add-log-form-section textarea,
+.add-log-form-section input[type="file"] {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.btn-submit-log {
+  background-color: #2563eb;
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-submit-log:hover {
+  background-color: #1d4ed8;
+}
+/* Tabla de logs */
+.cliente-logs table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size:16px
+}
+
+.cliente-logs th,
+.cliente-logs td {
+  padding: 0.75rem 1.2rem; /* Aumenta el padding si también quieres más espacio */
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+.add-log-form-section select,
+.add-log-form-section textarea,
+.add-log-form-section input[type="file"] {
+  font-size: 16px; /* cámbialo aquí también si quieres que el formulario tenga texto más grande */
+}
+.cliente-logs {
+  overflow-x: auto; /* permite desplazamiento si se sale */
+}
+
+.cliente-logs table {
+  table-layout: auto;
+  word-break: break-word;
+  font-size: 16px;
+}
+/* Cuando el sidebar está colapsado, reducimos su ancho a 0 */
+.sidebar.collapsed {
+  width: 0;
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+/* Cuando el sidebar está colapsado, el contenido principal toma todo el ancho */
+.container.sidebar-collapsed .main-content {
+  margin-left: 0 !important;
+}
+

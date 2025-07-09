@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="seccion">
+    <h2>Our project gallery</h2>
+
+    <div class="gallery-grid">
+        {# ——— Mini demo con 4 imágenes ——— #}
+        {% for i in range(1, 5) %}
+        <a href="{{ url_for('static', filename='img/gallery/full/img' ~ i ~ '.jpg') }}"
+           class="gallery-item"
+           data-lightbox="galeria">
+            <img src="{{ url_for('static', filename='img/gallery/thumb/img' ~ i ~ '.jpg') }}"
+                 alt="Proyecto {{ i }}">
+        </a>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

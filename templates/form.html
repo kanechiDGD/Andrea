@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Clientes</title>
+    <script>
+        function updateSelection(clienteId, value) {
+            document.getElementById("response_" + clienteId).innerText = "Respuesta: " + value;
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+        .cliente {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .cliente:last-child {
+            border-bottom: none;
+        }
+        .respuesta {
+            font-weight: bold;
+            color: green;
+        }
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Actualizar Suplementación</h1>
+
+        <form method="POST">
+            {% for index, row in clientes %}
+            <div class="cliente">
+                <p><strong>Cliente:</strong> {{ row['Nombre del Cliente'] }}</p>
+                <p><strong>Dirección:</strong> {{ row['Dirección'] }}</p>
+                
+                <label>¿Fue Suplementado?</label>
+                <input type="radio" name="suplementado_{{ index }}" value="Sí" 
+                       onclick="updateSelection('{{ index }}', 'Sí')"
+                       {% if row['Suplementado'] == 'Sí' %} checked {% endif %}> Sí
+                <input type="radio" name="suplementado_{{ index }}" value="No" 
+                       onclick="updateSelection('{{ index }}', 'No')"
+                       {% if row['Suplementado'] == 'No' %} checked {% endif %}> No
+                
+                <p id="response_{{ index }}" class="respuesta">Respuesta: 
+                    {{ row['Suplementado'] if row['Suplementado'] else 'Pendiente' }}
+                </p>
+            </div>
+            {% endfor %}
+            
+            <br>
+            <input type="submit" value="Actualizar">
+        </form>
+
+    </div>
+
+</body>
+</html>

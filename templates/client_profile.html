@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile of Client</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+    <!-- Tu CSS personalizado -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile_client.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+</head>
+<body>
+
+<!-- Botón hamburguesa -->
+<i class="fas fa-bars hamburger" id="hamburger" onclick="toggleSidebar()"></i>
+
+<div class="container">
+    <!-- Sidebar -->
+    {% include 'sidebar.html' %}
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        {% block content %}
+        <div class="top-bar-clientes">
+            <form method="get" action="{{ url_for('mostrar_cliente') }}" class="busqueda-form">
+                <input type="search" name="nombre" placeholder="Search by name.." class="busqueda-input" required>
+                <button type="submit" class="busqueda-boton" title="Buscar">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+
+            {% if not request.args.get('nombre') %}
+            <a href="/agregar-cliente" class="btn-agregar">
+                <i class="fas fa-plus"></i> Add Client
+            </a>
+            {% endif %}
+        </div>
+
+        {% if request.args.get('nombre') %}
+            {% if clientes and clientes|length == 1 %}
+                {% set cliente = clientes[0] %}
+                <h1>Profile of {{ cliente["Full Name"] }}</h1>
+                <a href="{{ url_for('editar_cliente', cliente_id=cliente['ID']) }}" class="btn-editar">
+                    <i class="fas fa-pen"></i> Edit Client
+                </a>
+                <form action="{{ url_for('eliminar_cliente', cliente_id=cliente['ID']) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this client?');">
+                    <button type="submit" class="btn-eliminar"><i class="fas fa-trash"></i> Delete Client</button>
+                </form>
+
+                <details open>
+                    <summary><i class="fas fa-user"></i> Customer Information</summary>
+                    <ul>
+                        <li><strong>Phone Number:</strong> {{ cliente["Phone Number"] }}</li>
+                        <li><strong>Last day of contact:</strong> {{ cliente["Ultimo dia de contacto"] }}</li>
+                        <li><strong>Address:</strong> {{ cliente["Address"] }}</li>
+                        <li><strong>Email:</strong> {{ cliente["Email"] }}</li>
+                        <li><strong>Language:</strong> {{ cliente["Language"] }}</li>
+                        <li><strong>Preferred contact time:</strong> {{ cliente["Preferred contact time"] }}</li>
+                        <li><strong>Sold by:</strong> {{ cliente["Sold By"] }}</li>
+                        <li><strong>Additional Notes:</strong> {{ cliente["Additional Notes"] }}</li>
+                    </ul>
+                </details>
+
+                <details>
+                    <summary><i class="fas fa-home"></i> Property Details</summary>
+                    <ul>
+                        <li><strong>Type of Property:</strong> {{ cliente["Type of Property"] }}</li>
+                        <li><strong>Permission to inspect?</strong> {{ cliente["Do we have permission to inspect the property?"] }}</li>
+                        <li><strong>Floors:</strong> {{ cliente["How many floors does the property have?"] }}</li>
+                        <li><strong>Garage:</strong> {{ cliente["Is the garage attached or detached?"] }}</li>
+                        <li><strong>Type of roof:</strong> {{ cliente["Type of roof"] }}</li>
+                        <li><strong>Roof pitch:</strong> {{ cliente["Roof pitch (slope or inclination of the roof)"] }}</li>
+                        <li><strong>Type of siding:</strong> {{ cliente["Type of siding"] }}</li>
+                        <li><strong>Walkable?:</strong> {{ cliente["Walkable?"] }}</li>
+                        <li><strong>Dogs?:</strong> {{ cliente["Dogs?"] }}</li>
+                        <li><strong>Inspected?:</strong> {{ cliente["Has the property been inspected?"] }}</li>
+                    </ul>
+                </details>
+
+                <details>
+                    <summary><i class="fas fa-bolt"></i> Property Damage</summary>
+                    <ul>
+                        <li><strong>Cause:</strong> {{ cliente["What caused the damage?"] }}</li>
+                        <li><strong>Type of Damage:</strong> {{ cliente["Type of Damage Observed"] }}</li>
+                        <li><strong>Photos Drive:</strong> <a href="{{ cliente['Upload photos'] }}" target="_blank">Ver Fotos</a></li>
+                        <li><strong>Damage Notes:</strong> {{ cliente["Additional notes about damage"] }}</li>
+                    </ul>
+                </details>
+
+                <details>
+                    <summary><i class="fas fa-file-invoice"></i> Insurance Information</summary>
+                    <ul>
+                        <li><strong>Company:</strong> {{ cliente["Insurance Company Name"] }}</li>
+                        <li><strong>Deductible:</strong> {{ cliente["How much is your deductible?"] }}</li>
+                        <li><strong>Policy Number:</strong> {{ cliente["Policy Number"] }}</li>
+                        <li><strong>PDF Policy:</strong> <a href="{{ cliente['PDF Policy'] }}" target="_blank">PDF</a></li>
+                        <li><strong>Adjuster:</strong> {{ cliente["Adjuster Name (if known)"] }}</li>
+                        <li><strong>Adjuster Insurance:</strong> {{ cliente["Adjuster Name Insurance"] }}</li>
+                    </ul>
+                </details>
+
+                <details>
+                    <summary><i class="fas fa-clipboard-check"></i> Insurance Claims</summary>
+                    <ul>
+                        <li><strong>Claim Filed?:</strong> {{ cliente["Have you filed an insurance claim?"] }}</li>
+                        <li><strong>Status:</strong> {{ cliente["Claim Status"] }}</li>
+                        <li><strong>Number:</strong> {{ cliente["Claim Number"] }}</li>
+                        <li><strong>Documents:</strong> <a href="{{ cliente['Claim Documents'] }}" target="_blank">Google Drive</a></li>
+                        <li><strong>Storm Date:</strong> {{ cliente["Storm Date"] }}</li>
+                        <li><strong>Claim Notes:</strong> {{ cliente["Additional notes about claim"] }}</li>
+                    </ul>
+                </details>
+
+                <details>
+                    <summary><i class="fas fa-folder"></i> Internal Documentation</summary>
+                    <ul>
+                        <li><strong>Ready Form:</strong> <a href="{{ cliente['Ready Form'] }}" target="_blank">Claim Filed</a></li>
+                        <li><strong>Case Delivered:</strong> {{ cliente["Case Delivered"] }}</li>
+                        <li><strong>Email admin:</strong> {{ cliente["email Admin By Us"] }}</li>
+                        <li><strong>Password:</strong> {{ cliente["Password"] }}</li>
+                        <li><strong>App Login:</strong> {{ cliente["App Login"] }}</li>
+                    </ul>
+                </details>
+
+                <a href="/client_profile" class="btn-regresar"><i class="fas fa-arrow-left"></i> Back to Search</a>
+
+            {% elif clientes and clientes|length > 1 %}
+                <h2>Resultados encontrados:</h2>
+                <div class="botones-clientes">
+                    {% for c in clientes %}
+                        <a href="{{ url_for('mostrar_cliente', nombre=c['Full Name']) }}" class="boton-cliente">
+                            {{ c['Full Name'] }}
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No se encontraron resultados para "{{ request.args.get('nombre') }}".</p>
+            {% endif %}
+        {% endif %}
+        {% endblock %}
+    </main>
+</div>
+
+<script>
+    function toggleSidebar() {
+        const sidebar = document.querySelector(".sidebar");
+        const content = document.querySelector(".main-content");
+
+        sidebar.classList.toggle("collapsed");
+        content.classList.toggle("expanded");
+    }
+</script>
+
+
+</body>
+</html>

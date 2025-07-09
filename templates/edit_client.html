@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit client</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile_client.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 30px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #0a2540;
+        }
+        .formulario {
+            max-width: 1100px;
+            background: #ffffff;
+            margin: 0 auto;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+        .formulario label {
+            font-weight: 500;
+            margin-bottom: 6px;
+            display: block;
+            color: #333;
+        }
+        .formulario input,
+        .formulario select,
+        .formulario textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            background-color: #fdfdfd;
+        }
+        .formulario select[multiple] {
+            height: auto;
+        }
+        .formulario .submit-button {
+            grid-column: span 2;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .formulario .submit-button button {
+            padding: 12px 30px;
+            background-color: #0a2540;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+        .formulario .submit-button button:hover {
+            background-color: #1c3d68;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 24px;
+            padding-top: 5px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: normal;
+            min-width: 150px;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>Edit client</h1>
+
+    <form method="post" class="formulario">
+        <input type="hidden" name="ID" value="{{ cliente['ID'] }}">
+        {% for campo in campos %}
+            {% if campo == 'Language' %}
+                <label>Language</label>
+                <select name="Language">
+                    <option value="English" {% if cliente[campo] == "English" %}selected{% endif %}>English</option>
+                    <option value="Spanish" {% if cliente[campo] == "Spanish" %}selected{% endif %}>Spanish</option>
+                </select>
+
+            {% elif campo == 'Preferred contact time' %}
+                <label>Preferred contact time</label>
+                <select name="Preferred contact time">
+                    <option value="Morning (8AM -12PM)" {% if cliente[campo] == "Morning (8AM -12PM)" %}selected{% endif %}>Morning (8AM -12PM)</option>
+                    <option value="Afternoon (12PM-5PM)" {% if cliente[campo] == "Afternoon (12PM-5PM)" %}selected{% endif %}>Afternoon (12PM-5PM)</option>
+                    <option value="Evening (5PM - 9PM)" {% if cliente[campo] == "Evening (5PM - 9PM)" %}selected{% endif %}>Evening (5PM - 9PM)</option>
+                </select>
+
+            {% elif campo == 'Do we have permission to inspect the property?' %}
+                <label>Permission to inspect the property?</label>
+                <select name="Do we have permission to inspect the property?">
+                    <option {% if cliente[campo] == "Yes" %}selected{% endif %}>Yes</option>
+                    <option {% if cliente[campo] == "No" %}selected{% endif %}>No</option>
+                </select>
+
+            {% elif campo in ['Walkable?', 'Has the property been inspected?', 'Dogs?', 'Have you filed an insurance claim?'] %}
+                <label>{{ campo.replace('?', '') }}</label>
+                <select name="{{ campo }}">
+                    <option {% if cliente[campo] == "Yes" %}selected{% endif %}>Yes</option>
+                    <option {% if cliente[campo] == "No" %}selected{% endif %}>No</option>
+                </select>
+
+            {% elif campo == 'Type of Property' %}
+                <label>Type of Property</label>
+                <select name="Type of Property">
+                    <option {% if cliente[campo] == "Residential" %}selected{% endif %}>Residential</option>
+                    <option {% if cliente[campo] == "Commercial" %}selected{% endif %}>Commercial</option>
+                </select>
+
+            {% elif campo == 'How many floors does the property have?' %}
+                <label>Number of floors</label>
+                <select name="How many floors does the property have?">
+                    <option {% if cliente[campo] == "1" %}selected{% endif %}>1</option>
+                    <option {% if cliente[campo] == "2" %}selected{% endif %}>2</option>
+                    <option {% if cliente[campo] == "3" %}selected{% endif %}>3</option>
+                    <option {% if cliente[campo] == "4" %}selected{% endif %}>4</option>
+                </select>
+
+            {% elif campo == 'Is the garage attached or detached?' %}
+                <label>Garage</label>
+                <select name="Is the garage attached or detached?">
+                    <option {% if cliente[campo] == "Attached" %}selected{% endif %}>Attached</option>
+                    <option {% if cliente[campo] == "Detached" %}selected{% endif %}>Detached</option>
+                    <option {% if cliente[campo] == "No Garage" %}selected{% endif %}>No Garage</option>
+                </select>
+
+            {% elif campo == 'Type of roof' %}
+                <label>Type of roof</label>
+                <select name="Type of roof">
+                    <option {% if cliente[campo] == "Three tab/composition" %}selected{% endif %}>Three tab/composition</option>
+                    <option {% if cliente[campo] == "Architectural/laminated" %}selected{% endif %}>Architectural/laminated</option>
+                    <option {% if cliente[campo] == "Other" %}selected{% endif %}>Other</option>
+                </select>
+
+            {% elif campo == 'Type of siding' %}
+                <label>Type of siding</label>
+                <select name="Type of siding">
+                    <option {% if cliente[campo] == "Vinyl" %}selected{% endif %}>Vinyl</option>
+                    <option {% if cliente[campo] == "Aluminium" %}selected{% endif %}>Aluminium</option>
+                    <option {% if cliente[campo] == "Metal" %}selected{% endif %}>Metal</option>
+                    <option {% if cliente[campo] == "Wood" %}selected{% endif %}>Wood</option>
+                    <option {% if cliente[campo] == "Brick/Concrete" %}selected{% endif %}>Brick/Concrete</option>
+                    <option {% if cliente[campo] == "Adbest" %}selected{% endif %}>Adbest</option>
+                </select>
+
+            {% elif campo == 'Roof pitch (slope or inclination of the roof)' %}
+                <label>Roof pitch</label>
+                <select name="Roof pitch (slope or inclination of the roof)">
+                    <option {% if cliente[campo] == "0° to 15° - Low slope" %}selected{% endif %}>0° to 15° - Low slope</option>
+                    <option {% if cliente[campo] == "16° to 30° - Medium slope" %}selected{% endif %}>16° to 30° - Medium slope</option>
+                    <option {% if cliente[campo] == "31° to 45° - Steep slope" %}selected{% endif %}>31° to 45° - Steep slope</option>
+                    <option {% if cliente[campo] == "Over 45° – Very steep slope" %}selected{% endif %}>Over 45° – Very steep slope</option>
+                </select>
+
+            {% elif campo == 'Insurance Company Name' %}
+                <label>Insurance Company Name</label>
+                <select name="Insurance Company Name">
+                    <option {% if cliente[campo] == "All State" %}selected{% endif %}>All State</option>
+                    <option {% if cliente[campo] == "State Farm" %}selected{% endif %}>State Farm</option>
+                    <option {% if cliente[campo] == "The Honover Ins" %}selected{% endif %}>The Honover Ins</option>
+                    <option {% if cliente[campo] == "Acuity Insurance" %}selected{% endif %}>Acuity Insurance</option>
+                    <option {% if cliente[campo] == "Country Financial" %}selected{% endif %}>Country Financial</option>
+                </select>
+
+            {% elif campo == 'Claim Status' %}
+                <label>Claim Status</label>
+                <select name="Claim Status">
+                    <option {% if cliente[campo] == "Need to file" %}selected{% endif %}>Need to file</option>
+                    <option {% if cliente[campo] == "Accept" %}selected{% endif %}>Accept</option>
+                    <option {% if cliente[campo] == "In progress" %}selected{% endif %}>In progress</option>
+                    <option {% if cliente[campo] == "Denied" %}selected{% endif %}>Denied</option>
+                    <option {% if cliente[campo] == "Closed" %}selected{% endif %}>Closed</option>
+                    <option {% if cliente[campo] == "Not sure" %}selected{% endif %}>Not sure</option>
+                    <option {% if cliente[campo] == "No Answer" %}selected{% endif %}>No Answer</option>
+                </select>
+
+            {% elif campo in ['What caused the damage?', 'Type of Damage Observed', 'Sold By'] %}
+                <label class="full-width">{{ campo }}</label>
+                <div class="checkbox-group">
+                    {% set opciones = [] %}
+                    {% if campo == 'What caused the damage?' %}
+                        {% set opciones = ['Hail', 'Wind', 'Granule loss'] %}
+                    {% elif campo == 'Type of Damage Observed' %}
+                        {% set opciones = ['Roof', 'Siding', 'Gutters', 'Interior', 'Windows', 'Not enough damage'] %}
+                    {% elif campo == 'Sold By' %}
+                        {% set opciones = ['Jason', 'Alfonso', 'Aidaly', 'Ruben', 'Blanca', 'Andres'] %}
+                    {% endif %}
+
+                    {% for opcion in opciones %}
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="{{ campo }}[]" value="{{ opcion }}" {% if opcion in cliente[campo] %}checked{% endif %}>
+                            {{ opcion }}
+                        </label>
+                    {% endfor %}
+                </div>
+
+            {% elif campo == 'Fecha de Ajustacion' %}
+                <label for="Fecha de Ajustacion">Adjustment Date</label>
+                <input type="date" name="Fecha de Ajustacion" id="Fecha de Ajustacion"
+                       value="{{ cliente['Fecha de Ajustacion']|replace('/', '-') }}">
+            
+            {% elif campo == 'Visita Programada' %}
+                <label for="Visita Programada">Scheduled Visit</label>
+                <input type="date" name="Visita Programada" id="Visita Programada"
+                       value="{{ cliente['Visita Programada']|replace('/', '-') }}">
+            
+            {% else %}
+                <label>{{ campo }}</label>
+                <input type="text" name="{{ campo }}" value="{{ cliente[campo] }}">
+            {% endif %}
+        {% endfor %}
+
+        <div class="submit-button">
+            <button type="submit">Save Client</button>
+        </div>
+    </form>
+</body>
+</html>

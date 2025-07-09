@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Construction Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/construction_profile.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+<i class="fas fa-bars hamburger" id="hamburger" onclick="toggleSidebar()"></i>
+{% include 'sidebar.html' %}
+<div class="main-content">
+    <div class="top-bar">
+        <h1>Construction Profile</h1>
+    </div>
+
+    <div class="container">
+        <form method="get" action="{{ url_for('construction_profile') }}" class="search-form">
+            <input type="text" name="name" placeholder="Search by full name" value="{{ request.args.get('name', '') }}" required>
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
+
+        {% if not clientes %}
+            <div class="card warning">
+                <p>No customer found with the name: <strong>{{ not_found }}</strong></p>
+            </div>
+        {% else %}
+            <div class="card">
+                <h2>Results</h2>
+                <div class="clients-grid">
+                    {% for cliente in clientes %}
+                        <div class="client-card">
+                            {% if cliente["ID"] %}
+                                <a href="{{ url_for('construction_detail', cliente_id=cliente['ID']) }}">
+                                    <i class="fas fa-user-circle icon"></i>
+                                    <span class="client-name">{{ cliente["Full Name"] }}</span>
+                                </a>
+                            {% else %}
+                                <div>
+                                    <i class="fas fa-user-circle icon"></i>
+                                    <span class="client-name">{{ cliente["Full Name"] }}</span>
+                                    <span class="missing-id">(No ID)</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    function toggleSidebar() {
+        const sidebar = document.querySelector('.sidebar');
+        const content = document.querySelector('.main-content');
+        sidebar.classList.toggle('collapsed');
+        content.classList.toggle('expanded');
+    }
+</script>
+</body>
+</html>

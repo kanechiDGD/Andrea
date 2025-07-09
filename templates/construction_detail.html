@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Construction Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/construction_profile.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .details-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .card-group {
+            background: #fff;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            width: calc(50% - 20px);
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-item strong {
+            color: #333;
+        }
+
+        .detail-item span, .detail-item a {
+            color: #555;
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            .card-group {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include 'sidebar.html' %}
+    <div class="main-content">
+        <div class="button-group">
+            <a href="{{ url_for('construction_profile') }}" class="btn-outline">
+                <i class="fas fa-arrow-left"></i> Back to Search
+            </a>
+            <a href="{{ url_for('editar_construction', cliente_id=cliente['ID']) }}" class="btn-outline">
+                <i class="fas fa-pen"></i> Edit
+            </a>
+        </div>
+        
+        
+        <div class="container">
+            {% if not cliente %}
+                <div class="card warning">
+                    <p>Client not found.</p>
+                </div>
+            {% else %}
+                <div class="card header-card">
+                    <h2><i class="fas fa-user-circle"></i> {{ cliente["Full Name"] }}</h2>
+                </div>
+        
+                <div class="card-grid">
+                    {% for key, value in cliente.items() %}
+                        {% if key != "Full Name" %}
+                            <div class="field-card">
+                                <div class="field-label">
+                                    <i class="fas fa-info-circle"></i> {{ key.replace('_', ' ').replace(':', '').strip() }}
+                                </div>
+                                <div class="field-value">
+                                    {% if key == "Contract PDF" and value %}
+                                        <a href="{{ value }}" target="_blank">
+                                            <i class="fas fa-file-pdf"></i> View PDF
+                                        </a>
+                                    {% else %}
+                                        {{ value if value else "—" }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>        
+    </div>
+</body>
+</html>

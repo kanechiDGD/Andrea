@@ -1,0 +1,26 @@
+<!-- sidebar.html -->
+<div class="hamburger" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+  </div>
+  
+  <div class="sidebar" id="sidebar">
+    <h2>Structure Dynamics</h2>
+    <ul>
+      <li><a href="{{ url_for('inicio') }}"><i class="fas fa-globe"></i> Return Website</a></li>      <li><a href="{{ url_for('dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+      <li><a href="{{ url_for('client_profile_selector') }}"><i class="fas fa-users"></i> Profile Clients</a></li>
+      <li><a href="{{ url_for('clients') }}"><i class="fas fa-clipboard-list"></i> Logs</a></li>
+      <li><a href="{{ url_for('construction_profile') }}"><i class="fas fa-hard-hat"></i> Construction</a></li>
+      <li><a href="#"><i class="fas fa-file-contract"></i> Contracts</a></li>
+      <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
+      <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>    </ul>
+  </div>
+  
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const content = document.getElementById('mainContent');
+      sidebar.classList.toggle('collapsed');
+      content.classList.toggle('expanded');
+    }
+  </script>
+  

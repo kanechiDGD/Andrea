@@ -1,0 +1,272 @@
+/* Contenedor general */
+.container {
+    display: flex;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+
+/* Contenido principal */
+.content {
+    flex-grow: 1;
+    padding: 30px;
+    background-color: #f9f9f9;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto; /* Esto centra todo el contenido */
+}
+
+
+.content h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* Estilo para <details> */
+details {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-left: 5px solid #0a2540;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Estilo para <summary> */
+summary {
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 10px;
+}
+
+details[open] summary {
+    color: #007bff;
+}
+
+/* Lista interna */
+details ul {
+    list-style: none;
+    padding-left: 15px;
+}
+
+details ul li {
+    margin-bottom: 8px;
+}
+
+/* BotÃ³n y selector */
+form select, form button {
+    padding: 8px;
+    margin-right: 10px;
+}
+/* 🔍 Buscador adaptativo */
+.busqueda-form {
+    margin-left: 60px;  /* para que no se monte con el menú */
+    margin-top: 20px;
+    display: flex;
+    max-width: 600px;
+    margin-bottom: 20px;
+    gap: 0;
+}
+
+.busqueda-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.busqueda-icono {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #888;
+}
+
+.busqueda-icono svg,
+.busqueda-boton svg {
+    width: 18px;
+    height: 18px;
+    stroke: white;
+}
+
+.busqueda-input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 6px 0 0 6px;
+    font-size: 16px;
+    outline: none;
+    background-color: #fff;
+}
+
+.busqueda-input:focus {
+    border-color: #1a202c;
+}
+
+.busqueda-boton {
+    padding: 10px 20px;
+    background-color: #0a2540;
+    color: white;
+    border: 1px solid #0a2540;
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+.busqueda-boton:hover {
+    background-color: #51668f;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+/* Resultados de búsqueda: estilo de la lista de nombres */
+ul.resultados-busqueda {
+    list-style: disc;
+    padding-left: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+ul.resultados-busqueda li {
+    margin-bottom: 6px;
+}
+
+ul.resultados-busqueda li a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+    font-family: inherit; /* Hereda de ul */
+}
+
+ul.resultados-busqueda li a:hover {
+    text-decoration: underline;
+}
+/* Contenedor de los botones de clientes */
+.botones-clientes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+/* Estilo individual de cada cliente */
+.boton-cliente {
+    display: inline-block;
+    padding: 10px 16px;
+    background-color: #ffffff;
+    color: #0a2540;
+    border: 1.5px solid #0a2540;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    text-decoration: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.07);
+    transition: all 0.2s ease-in-out;
+}
+
+.boton-cliente:hover {
+    background-color: #0a2540;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.btn-agregar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #28a745;
+    color: white;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    gap: 8px;
+    height: 44px;               /* 🟢 Esto asegura alineación vertical */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn-agregar:hover {
+    background-color: #218838;
+    transform: translateY(-1px);
+    text-decoration: none;
+    color: white;
+}
+
+.icono-plus {
+    flex-shrink: 0;
+}
+
+.top-bar-clientes {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* cambia de flex-start a esto */
+    gap: 16px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    padding: 0 10px;
+}
+.btn-editar {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: #ffc107;
+    color: #0a2540;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+.btn-editar:hover {
+    background-color: #e0a800;
+}
+.btn-eliminar {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #e53935;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn-eliminar:hover {
+    background-color: #b71c1c;
+}
+.flash-messages {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 10px;
+}
+
+.flash {
+    background-color: #e0f7fa;
+    color: #006064;
+    border-left: 6px solid #00acc1;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+

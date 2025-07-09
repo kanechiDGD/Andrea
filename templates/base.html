@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure Dynamics</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<body>
+    <header class="modern-navbar">
+        <div class="navbar-container">
+            <button id="menu-toggle" class="burger-btn" aria-label="Menú">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <a href="/" class="logo-link">
+                <video autoplay muted loop playsinline class="logo-video"
+                       poster="{{ url_for('static', filename='img/logo.jpg') }}">
+                    <source src="{{ url_for('static', filename='video/logo.mp4') }}" type="video/mp4">
+                </video>
+            </a>
+        </div>
+    </header>
+
+    <aside id="side-menu" class="side-menu">
+        <button id="sidebar-close-btn" class="burger-btn sidebar-close-btn" aria-label="Cerrar Menú">
+            <i class="fas fa-times"></i>
+        </button>
+        <h2>Structure Dynamics</h2>
+        <ul>
+            <li><a href="{{ url_for('inicio') }}"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="{{ url_for('servicios') }}"><i class="fas fa-briefcase"></i> Services</a></li>
+            <li><a href="#estimado"><i class="fas fa-calculator"></i> Estimate</a></li>
+            <li><a href="{{ url_for('proceso') }}"><i class="fas fa-stream"></i> Process</a></li>
+            <li><a href="{{ url_for('galeria') }}"><i class="fas fa-images"></i> Galery</a></li>
+            <li><a href="{{ url_for('mision_vision') }}"><i class="fas fa-bullseye"></i> Mision & Vision</a></li>
+            <li><a href="{{ url_for('login') }}"><i class="fas fa-user-circle"></i> Employee Log In</a></li>
+        </ul>
+    </aside>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer><p>&copy; 2025 Structure Dynamics LLC</p></footer>
+
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>AOS.init({ once:true, duration:1000 });</script>
+    <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox-plus-jquery.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const sideMenu = document.getElementById('side-menu');
+          const menuToggleFromHeader = document.getElementById('menu-toggle');
+          const sidebarCloseBtn = document.getElementById('sidebar-close-btn');
+          const menuIcon = menuToggleFromHeader.querySelector('i'); // El icono dentro del botón del header
+          const body = document.body; // Referencia al elemento <body>
+      
+          // Función para abrir/cerrar el sidebar y empujar el contenido
+          function toggleSidebar() {
+            sideMenu.classList.toggle('open');
+            body.classList.toggle('sidebar-open'); // <-- Esta línea es clave para el CSS del body
+      
+            // Cambiar el icono del botón de hamburguesa del header
+            if (sideMenu.classList.contains('open')) {
+              menuIcon.classList.remove('fa-bars');
+              menuIcon.classList.add('fa-times');
+            } else {
+              menuIcon.classList.remove('fa-times');
+              menuIcon.classList.add('fa-bars');
+            }
+          }
+      
+          // Event listener para el botón de hamburguesa en el header (para abrir)
+          if (menuToggleFromHeader) {
+            menuToggleFromHeader.onclick = toggleSidebar;
+          }
+      
+          // Event listener para el botón de cierre DENTRO del sidebar (para cerrar)
+          if (sidebarCloseBtn) {
+            sidebarCloseBtn.onclick = toggleSidebar;
+          }
+        });
+      </script>
+</body>
+</html>

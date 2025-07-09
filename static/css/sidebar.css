@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 230px;
+    height: 100vh;
+    background-color: #0b2347;
+    color: white;
+    padding: 80px 20px 20px;
+    overflow-y: auto;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+}
+
+.sidebar h2 {
+    font-size: 25px;
+    margin-top: -8px;
+    margin-bottom: 26px;
+    padding-left: 13px;
+    line-height: 1.3;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 25px;
+    font-size: 18px;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.sidebar ul li a i {
+    margin-right: 12px;
+    font-size: 20px;
+}
+
+/* ===== Sidebar colapsado ===== */
+.sidebar.collapsed {
+    transform: translateX(-100%);
+}
+
+/* ===== Botón hamburguesa ===== */
+.hamburger {
+    position: fixed;
+    top: 17px;
+    left: 20px;
+    font-size: 22px;
+    color: white;
+    background-color: #0b2347;
+    padding: 9px;
+    border-radius: 8px;
+    z-index: 1001;
+    cursor: pointer;
+}
+
+
+
+/* ===== Contenido principal ===== */
+.main-content {
+    margin-left: 245px;
+    padding: 30px 30px 30px 0;
+    transition: margin-left 0.3s ease;
+    background-color: #f5f9ff;
+    min-height: 100vh;
+}
+
+/* Cuando sidebar está colapsado */
+.sidebar.collapsed + .main-content,
+.main-content.expanded {
+    margin-left: 0 !important;
+}
+.sidebar {
+    position: fixed;
+    width: 200px;
+    height: 100vh;
+    background-color: #0c2340;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+  }
+  

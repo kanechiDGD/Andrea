@@ -1,0 +1,134 @@
+/* General */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+}
+
+
+/* Main Content */
+.content {
+    margin-left: 360px;
+    padding: 60px;
+    width: 100%;
+    padding: 5rem;
+    position: relative;
+    transition: margin-left 0.3s ease;
+}
+.main-content h1 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+
+
+
+/* Cuadros de métricas */
+.metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.metric-box {
+    flex: 1;
+    min-width: 350px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.metric-box span {
+    display: block;
+    font-size: 26px;
+    color: #007bff;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Sección del calendario */
+.calendario,
+.cheques-movimiento,
+.contactos-proximos {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+}
+
+.calendario h2,
+.cheques-movimiento h1,
+.contactos-proximos h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* Tabla de contactos */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+
+thead {
+    background: #0b2347;
+    color: white;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:hover {
+    background: #f1f1f1;
+}
+
+.warning {
+    background: #fff3cd;
+}
+
+.danger {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.no-data {
+    text-align: center;
+    color: #888;
+    padding: 20px;
+}
+/* FullCalendar Event Styling */
+.fc .fc-event {
+    font-size: 0.70rem !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    padding: 2px 6px !important;
+    max-width: 100% !important;
+    border-radius: 5px !important;
+}
+
+/* Aumenta el alto de cada celda del calendario */
+.fc-daygrid-day-frame {
+    min-height: 70px !important;
+}
+
+/* Previene desbordamiento en móviles */
+.fc .fc-daygrid-event-harness {
+    max-width: 100% !important;
+    display: block !important;
+}
+#calendar {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  

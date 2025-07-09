@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Dashboard</title>
+
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet" />
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+
+</head>
+<body>
+
+<!-- Botón Hamburguesa -->
+<i class="fas fa-bars hamburger" id="hamburger" onclick="toggleSidebar()"></i>
+
+<div class="container">
+    <!-- Sidebar -->
+    {% include 'sidebar.html' %}
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <h1>Key Metrics Overview</h1>
+
+        <div class="metrics">
+            <div class="metric-box">Total of Customers <span>{{ data.total_clientes }}</span></div>
+            <div class="metric-box">Delayed Contact <span>{{ data.contacto_atrasado }}</span></div> 
+            <div class="metric-box">Not Supplemented <span>{{ data.no_suplementado }}</span></div>
+            <div class="metric-box">Ready To Build <span>{{ data.listas_para_construir }}</span></div>
+            <div class="metric-box">Not submitted <span>{{ data.pendientes_someter }}</span></div>
+        </div>
+
+        <section class="calendario">
+            <h2>Adjustments and Meetings Calendar</h2>
+            <div id="calendar" style="max-width: 100%; margin-top: 20px;"></div>
+        </section>
+
+        <section class="cheques-movimiento">
+            <h2>Movement of Checks</h2>
+            <div class="metrics">
+                <div class="metric-box">First Checks Collected <span>{{ data.primer_cheques_colectados }}</span></div>
+                <div class="metric-box">Second Checks Collected <span>{{ data.segundo_cheques_colectados }}</span></div>
+                <div class="metric-box">Checks in Customer's Possession <span>{{ data.cheques_cliente }}</span></div>
+                <div class="metric-box">Checks Sent to Mortgage <span>{{ data.cheques_mortgage }}</span></div>
+                <div class="metric-box">Second Checks Not Collected <span>{{ data.segundos_no_colectados }}</span></div>
+                <div class="metric-box">Supplementation Check Obtaineds <span>{{ data.cheques_suplementacion }}</span></div>
+            </div>
+        </section>
+
+        <section class="contactos-proximos">
+            <h2>Próximos Contactos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Last Contact</th>
+                        <th>Days Remaining</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contacto in data.contactos_proximos %}
+                    <tr class="{% if contacto.dias_restantes < 3 %}warning{% elif contacto.dias_restantes < 0 %}danger{% endif %}">
+                        <td>{{ contacto.id }}</td>
+                        <td>{{ contacto.nombre }}</td>
+                        <td>{{ contacto.direccion }}</td>
+                        <td>{{ contacto.ultimo_contacto }}</td>
+                        <td>{{ contacto.dias_restantes }} días</td>
+                        <td>{{ contacto.estatus }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="no-data">There are no scheduled contacts in the next few days.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+</div>
+
+<!-- FullCalendar UMD -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        if (calendarEl) {
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'en',
+                height: 600,
+                events: {{ eventos | tojson }},
+                eventContent: function(arg) {
+                    let titleEl = document.createElement('div');
+                    titleEl.style.fontWeight = 'bold';
+                    titleEl.innerText = arg.event.title;
+
+                    let timeEl = document.createElement('div');
+                    timeEl.style.fontSize = '0.8em';
+                    timeEl.style.color = '#555';
+                    timeEl.innerText = arg.timeText;
+
+                    return { domNodes: [titleEl, timeEl] };
+                }
+            });
+            calendar.render();
+
+            calendar.on('eventClick', function(info) {
+                alert(`Title: ${info.event.title}\nAddress: ${info.event.extendedProps.address}`);
+            });
+        }
+    });
+    function toggleSidebar() {
+        const sidebar = document.querySelector('.sidebar');
+        const content = document.querySelector('.main-content');
+        sidebar.classList.toggle('collapsed');
+        content.classList.toggle('expanded');
+}
+</script>
+</body>
+</html>

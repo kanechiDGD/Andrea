@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="seccion">
+    <h2>Our Work Process</h2>
+
+    <div class="timeline fancy">
+
+        {% set pasos = [
+            (1, 'Free Inspection', 'With your approval, we inspect the damages and take photos. We review your policy before proceeding.',  'step1.jpg', '<i class="fas fa-search-dollar"></i>'),
+            (2, 'Agreements',            'You sign with the Public Adjuster and with us to formally authorize the process.',                     'step2.jpg', '<i class="fas fa-file-signature"></i>'),
+            (3, 'Claim Management', 'We communicate with your insurer and manage everything for you.',                                         'step3.jpg', '<i class="fas fa-headset"></i>'),
+            (4, 'Approval & Checks','We await approval; you will receive the first check and others if applicable.',                                  'step4.jpg', '<i class="fas fa-money-check-alt"></i>'),
+            (5, 'Construction',        'You choose style and colors. We rebuild with quality materials.',                                    'step5.jpg', '<i class="fas fa-hard-hat"></i>'),
+            (6, 'Job Finished!', 'Final review, warranty delivery, and project closing.',                                              'step6.jpg', '<i class="fas fa-check-circle"></i>')
+        ] %}
+
+        {% for num, titulo, texto, img, icono in pasos %}
+        <div class="timeline-step fancy" style="background-image:url('/static/img/{{ img }}');" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+            <span class="step-num">{{ num }}</span>
+            <div class="overlay-inner">
+                <h3>{{ icono | safe }} {{ titulo }}</h3> {# Added | safe filter here #}
+                <p>{{ texto }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Client Log</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/client.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+
+  </head>
+  <body>
+
+    <i class="fas fa-bars hamburger" id="hamburger" onclick="toggleSidebar()"></i>
+  
+    <div class="container">
+      {% include 'sidebar.html' %}
+      <main class="main-content cliente-detalle">
+  
+    <form method="GET" action="/clients" class="busqueda-form">
+      <div class="busqueda-wrapper">
+        <i class="fa fa-search busqueda-icono"></i>
+        <input type="search" class="busqueda-input" placeholder="Search client..." name="search" required />
+        <button type="submit" class="busqueda-boton"><i class="fa fa-arrow-right"></i></button>
+      </div>
+    </form>
+
+    {% if cliente %}
+    <div class="cliente-layout">
+      <div class="columna-izquierda">
+        <aside class="cliente-info card">
+          {% if cliente and 'id' in cliente %}
+              <img src="{{ url_for('static', filename='uploads/foto_' + cliente['id']|string + '.jpg') }}"
+                onerror="this.src='https://i.pinimg.com/564x/d1/51/62/d15162b27cd9712860b90abe58cb60e7.jpg';"
+                class="cliente-foto" alt="Foto del Cliente" />
+          {% else %}
+            <p style="color: red;">Cliente o ID no disponible</p>
+          {% endif %}
+
+          <form action="{{ url_for('upload_foto', cliente_id=cliente['id']
+          ) }}" method="post" enctype="multipart/form-data">
+            <input type="file" name="foto" accept="image/*" required/>
+            <button type="submit">Change Photo</button>
+          </form>
+          
+          <h2>{{ cliente["nombre"] or "Sin nombre" }}</h2>
+
+          <section class="cliente-logs acciones-rect">
+            <table>
+              <tbody>
+                <tr>
+                  <th><i class="fas fa-user-tag"></i> Salesman</th>
+                  <td>{{ cliente.vendedor }}</td>
+                </tr>
+                <tr>
+                  <th><i class="fas fa-signal"></i> Status</th>
+                  <td>{{ cliente.estatus }}</td>
+                </tr>
+                <tr>
+                  <th><i class="fas fa-clock"></i> Recent Actions</th>
+                  <td>
+                    <ul>
+                      {% for accion in cliente.acciones_recientes %}
+                        <li>{{ accion }}</li>
+                      {% else %}
+                        <li class="no-data">There are no recent actions.</li>
+                      {% endfor %}
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </aside>
+
+        <section class="add-log-form-section card">
+          <h3><i class="fas fa-plus-circle"></i> Add New Log</h3>
+          <form method="post" action="{{ url_for('add_log', cliente_id=cliente['id']) }}">
+            <div class="form-group">
+              <label for="User">User:</label>
+              <select id="User" name="User" required>
+                <option value="">Select User</option>
+                <option value="Admin">Admin</option>
+                <option value="Alfonso">Alfonso</option>
+                <option value="Andres">Andres</option>
+                <option value="Blanca">Blanca</option>
+                <option value="Aidaly">Aidaly</option>
+                <option value="Jason">Jason</option>
+                <option value="Ruben">Ruben</option>
+              </select>
+            </div>
+            
+
+            <div class="form-group">
+              <label for="Log_Type">Log Type:</label>
+              <select id="Log_Type" name="Log_Type" required>
+                <option value="">Select a Type</option>
+                <option value="Call">Call</option>
+                <option value="Text">Text</option>
+                <option value="Email">Email</option>
+                <option value="Visit">Visit</option>
+                <option value="Inspection">Inspection</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="log_description">Description:</label>
+              <textarea id="log_description" name="log_description" rows="4" placeholder="Log Details..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit-log">Add Log</button>
+          </form>
+        </section>
+      </div>
+
+      <div class="columna-principal">
+        <section class="cliente-logs card">
+          <h3><i class="fas fa-history"></i> Latest Customer Logs</h3>
+          <table>
+            <thead>
+              <tr>
+                <th><i class="fas fa-user"></i> User</th>
+                <th><i class="fas fa-align-left"></i> Log</th>
+                <th><i class="fas fa-calendar-day"></i> Date</th>
+                <th><i class="fas fa-tag"></i> Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for log in cliente.logs %}
+              <tr>
+                <td>{{ log.usuario }}</td>
+                <td>{{ log.descripcion }}</td>
+                <td>{{ log.fecha }}</td>
+                <td>{{ log.tipo }}</td>
+              </tr>
+              {% else %}
+              <tr>
+                <td colspan="4" class="no-data">No hay logs registrados para este cliente.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </section>
+      
+
+
+        <!-- Contact Info -->
+        <section class="cliente-logs contacto-rect card">
+          <table>
+            <thead>
+              <tr><th colspan="2"><i class="fas fa-address-card"></i> Contact Information</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Phone:</strong></td><td>{{ cliente.telefono }}</td></tr>
+              <tr><td><strong>Address:</strong></td><td>{{ cliente.address }}</td></tr>
+              <tr><td><strong>Email:</strong></td><td>{{ cliente.email }}</td></tr>
+              <tr><td><strong>Language:</strong></td><td>{{ cliente.idioma }}</td></tr>
+              <tr><td><strong>Preferred Time:</strong></td><td>{{ cliente.hora_preferida }}</td></tr>
+            </tbody>
+          </table>
+        </section>
+      
+        <!-- Insurance Info colocada justo debajo -->
+        <section class="info-card card">
+          <h3><i class="fas fa-shield-alt"></i> Insurance Information</h3>
+          <ul>
+            <li><strong>Insurance:</strong> {{ cliente.insurance }}</li>
+            <li><strong>Deductible:</strong> {{ cliente.deductible }}</li>
+            <li><strong>Policy Number:</strong> {{ cliente.policy_number }}</li>
+            <li><strong>Claim Number:</strong> {{ cliente.claim_number }}</li>
+            <li><strong>Adjuster:</strong> {{ cliente.adjuster }}</li>
+            <li><strong>Estimate:</strong> {{ cliente.estimate }}</li>
+            <li><strong>Other Documents:</strong> {{ cliente.other_documents }}</li>
+          </ul>
+        </section>
+      </div>
+
+
+      <!-- Scheduled Visit -->
+      <div class="metric-card card">
+        <h3><i class="fas fa-calendar-check"></i> Scheduled Visit</h3>
+        <form method="POST" action="{{ url_for('update_log_date', cliente_id=cliente['id'], campo='Scheduled Visit') }}">
+          <input type="date" name="log_date"
+            value="{{ cliente.get('visita_programada', {}).get('Date', '')|replace('/', '-') }}"
+            required>
+          <button type="submit" class="btn-submit-log">Save</button>
+        </form>
+        {% if cliente.get('visita_programada') and cliente['visita_programada'].get('Date') %}
+          <p>{{ cliente['visita_programada']['Date'] }}</p>
+        {% else %}
+          <p class="no-data">• There is no scheduled visit.</p>
+        {% endif %}
+      </div>
+
+
+        <!-- Adjustment Date -->
+        <div class="metric-card card">
+          <h3><i class="fas fa-user-tie"></i> Adjustment Date</h3>
+          <form method="POST" action="{{ url_for('update_log_date', cliente_id=cliente['id'], campo='Adjustment Date') }}">
+            <input type="date" name="log_date"
+                  value="{% if cliente.ajustacion %}{{ cliente.ajustacion['fecha']|replace('/', '-') }}{% else %}{% endif %}"
+                  required>
+            <button type="submit" class="btn-submit-log">Save</button>
+          </form>
+          {% if cliente.ajustacion and cliente.ajustacion['fecha'] %}
+            <p>{{ cliente.ajustacion['fecha'] }}</p>
+          {% else %}
+            <p class="no-data">There is no adjustment date.</p>
+          {% endif %}
+        </div>
+
+
+        <div class="metric-card card">
+          <h3><i class="fas fa-file-pdf"></i> PDF Policy</h3>
+          <form action="{{ url_for('upload_poliza', cliente_id=cliente['id']) }}" method="post" enctype="multipart/form-data">
+            <input type="file" name="poliza" accept="application/pdf" />
+            <button type="submit">Upload</button>
+          </form>
+          {% if cliente.get('pdf_poliza_url') %}
+            <p><a href="{{ cliente.pdf_poliza_url }}" target="_blank">Watch/Download</a></p>
+          {% endif %}
+        </div>
+
+        <div class="metric-card card">
+          <h3><i class="fas fa-file-signature"></i> PDF Contract</h3>
+          <form action="{{ url_for('upload_contrato', cliente_id=cliente['id']) }}" method="post" enctype="multipart/form-data">
+            <input type="file" name="contrato" accept="application/pdf" />
+            <button type="submit">Upload</button>
+          </form>
+          {% if cliente.get('pdf_contrato_url') %}
+            <p><a href="{{ cliente.pdf_contrato_url }}" target="_blank">Watch/Download</a></p>
+          {% endif %}
+        </div>
+      </div>
+
+
+
+        <div class="info-card card">
+          <h3><i class="fas fa-info-circle"></i> Additional Information</h3>
+          <ul>
+            <li>{{ cliente.item_1 }}</li>
+            <li>{{ cliente.item_2 }}</li>
+            <li>{{ cliente.item_3 }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <section class="cliente-notas card">
+        <h3><i class="fas fa-sticky-note"></i> Notes</h3>
+        <div class="notas-texto">
+          {{ cliente.notas or "No additional notes" }}
+        </div>
+      </section>
+    </div>
+    {% else %}
+      <p style="color: red; padding: 2rem;">No customer was found</p>
+    {% endif %}
+  </main>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.querySelector(".sidebar");
+      const container = document.querySelector(".container");
+
+      sidebar.classList.toggle("collapsed");
+      container.classList.toggle("sidebar-collapsed");
+    }
+    </script>
+    
+</body>
+</html>
