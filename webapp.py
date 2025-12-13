@@ -16,6 +16,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 # dentro del mismo directorio que este archivo Python.
 app = Flask(__name__, template_folder='templates')
 app.secret_key = 'super-secreto-unificado-y-mas-seguro' # Usar una clave más robusta en producción
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
 
 # --- Configuración de Subida de Archivos (Necesaria para upload_foto) ---
 # Asegúrate de crear esta carpeta o ajusta la ruta
@@ -162,6 +163,7 @@ def login():
         pwd   = request.form['password']
         if email in USERS and USERS[email] == pwd:
             session['user'] = email
+            session.permanent = True
             # Redirigir al dashboard de empleados después del login
             return redirect(url_for('dashboard'))
         flash("Credenciales inválidas", "error") # Usa flash para mensajes de error
